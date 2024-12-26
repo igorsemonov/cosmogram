@@ -1,39 +1,51 @@
 
 const obj = () => ({
-    id: makeIntUp25(),
-    url: makeUrl(),
-    likes: makeIntUp200(),
-    description: "Some description",
-    comments: makeComments()
+    id: getRandomInt(1, 25),
+    url: getUrl(),
+    likes: getRandomInt(15, 200),
+    description: getDescription(),
+    comments: getComments()
 });
 
-function makeIntUp25() {
-    return Math.floor(Math.random() * 25) + 1;
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-function makeUrl() {
-    return `photos/${Math.floor(Math.random() * 25) + 1}.jpg`;
+function getUrl() {
+    return `photos/${getRandomInt(1, 6)}.jpg`;
 };
 
-function makeIntUp200() {
-    return Math.floor(Math.random() * 186) + 15;
+function getAvatar() {
+    return `img/avatar-${getRandomInt(1, 6)}.svg`;
 };
 
-function makeAvatar() {
-    return `img/avatar-${Math.floor(Math.random() * 6) + 1}.svg`;
-};
-
-function makeName() {
+function getName() {
     const names = ['John', 'Bill', 'Jane', 'Alice', 'Steve', 'Lara'];
     return names[Math.floor(Math.random() * names.length)];
 };
 
-function makeComments() {
-    return Array.from({length: Math.floor(Math.random() * 4) + 1}, () => ({
-        id: makeIntUp200(),
-        avatar: makeAvatar(),
-        message: 'Загалом все непогано. Але не всі.',
-        name: makeName()
+function getDescription() {
+    const descriptions = ["Sun", "Beach", "Mountain", "River", "City", "Club", "Night", "Moon"];
+    return descriptions[Math.floor(Math.random() * descriptions.length)];
+};
+
+function getMessage() {
+    const messages = ['Все відмінно!',
+        'Загалом все непогано. Але не всі.',
+        'Коли ви робите фотографію, добре б прибирати палець із кадру. Зрештою, це просто непрофесійно.',
+        'Моя бабуся випадково чхнула з фотоапаратом у руках і у неї вийшла фотографія краща.',
+        'Я послизнувся на банановій шкірці і впустив фотоапарат на кота і у мене вийшла фотографія краще.',
+        'Обличчя людей на фотці перекошені, ніби їх побивають. Як можна було зловити такий невдалий момент?'
+        ];
+    return messages[Math.floor(Math.random() * messages.length)];
+}
+
+function getComments() {
+    return Array.from({length: getRandomInt(1, 5)}, () => ({
+        id: getRandomInt(1, 200),
+        avatar: getAvatar(),
+        message: getMessage(),
+        name: getName()
     }));
 };
 
