@@ -45,21 +45,24 @@ function getComments() {
 };
 
 const photos = Array.from({length: 25}, (_,idx)=>obj(idx));
-console.log(photos)
 
 // ====================================================================================================
 
-function renderAllPhotos(arr) {
-
+function generateElement(el) {
     const template = document.querySelector('#picture');
-    const uploadSection = document.querySelector('.pictures');
-
-    arr.forEach(elem => {   
-        let clonedTemplate = template.content.cloneNode(true);
-        clonedTemplate.querySelector('.picture__img').src = elem.url;
-        clonedTemplate.querySelector('.picture__likes').textContent = elem.likes;
-        clonedTemplate.querySelector('.picture__comments').textContent = elem.comments.length;
-        uploadSection.appendChild(clonedTemplate);
-});
+    let clonedTemplate = template.content.cloneNode(true);
+    clonedTemplate.querySelector('.picture__img').src = el.url;
+    clonedTemplate.querySelector('.picture__likes').textContent = el.likes;
+    clonedTemplate.querySelector('.picture__comments').textContent = el.comments.length;
+    return clonedTemplate;
 };
+
+function renderAllPhotos(arr) {
+    const uploadSection = document.querySelector('.pictures');
+    arr.forEach(element => { 
+        const img = generateElement(element);
+        uploadSection.appendChild(img);
+    });
+};
+
 renderAllPhotos(photos);
