@@ -1,5 +1,5 @@
 
-import { getUrl, getRandomInt, getRandomElement, getComments} from "./functions.js";
+import {getUrl, getRandomInt, getRandomElement, getComments} from "./functions.js";
 
 export const names = ['John', 'Bill', 'Jane', 'Alice', 'Steve', 'Lara'];
 
@@ -22,3 +22,4 @@ export const obj = (idx) => ({
 });
 
 export const photos = Array.from({length: 25}, (_,idx)=>obj(idx));
+

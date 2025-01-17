@@ -1,5 +1,7 @@
 
 import{names, messages} from "./variables.js"
+import{hashtagText, commentText, uploadFile} from "./main.js";
+
 
 export function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -35,6 +37,15 @@ export function toggleClass() {
     commentCount.classList.toggle('hidden');
 };
 
+export function toggleClassForm() {
+    const uploadOverlay = document.querySelector('.img-upload__overlay');
+    document.body.classList.toggle('modal-open');
+    uploadOverlay.classList.toggle('hidden');
+    hashtagText.value = '';
+    commentText.value = '';
+    uploadFile.value = '';
+}
+
 export function generateElement(el) {
     const template = document.querySelector('#picture');
     let clonedTemplate = template.content.cloneNode(true);
@@ -52,4 +63,46 @@ export function generateComment(el) {
     clonedCommentsSection.querySelector('.social__picture').alt = el.name;
     clonedCommentsSection.querySelector('.social__text').textContent = el.message;
     return clonedCommentsSection;
+};
+
+export function validateHashtag() {
+    const maxLength = 20;
+    const maxHashTags = 5;
+    let inputValue = hashtagText.value.trim().split(' ');
+    const uniqueTags = new Set(inputValue);
+
+    if(uniqueTags.size !== inputValue.length){
+        hashtagText.setCustomValidity('tags are similar');
+        return
+    }
+
+    for (let el of inputValue){
+        if(!/^#[a-z0-9]+$/i.test(el)){
+            hashtagText.setCustomValidity('incorrect tag');
+            return
+        }
+        else if(inputValue.length > maxHashTags){
+            hashtagText.setCustomValidity(`tags limit is ${maxHashTags}`);
+            return
+        }
+        else if(el.length > maxLength){
+            hashtagText.setCustomValidity(`max chars in tag is ${maxLength}`);
+            return
+        }
+        else{
+            hashtagText.setCustomValidity('');
+        }
+    }
+};
+
+export function validateComment() {
+    const maxLength = 140;
+    let commentValue = commentText.value.trim();
+    if(commentValue.length > maxLength){
+        commentText.setCustomValidity(`comment limit is ${maxLength} characters`);
+        commentText.reportValidity();
+    }
+    else{
+        commentText.setCustomValidity('');
+    }
 };
