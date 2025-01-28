@@ -1,7 +1,7 @@
 
-import {toggleClassForm, generateElement} from "./functions.js";
+import {generateElement, toggleClassForm} from "./functions.js";
 import {validateHashtag, validateComment} from "./validation.js";
-import {getFullScreen, closeFullScreen, showMoreComments} from "./modal_window.js";
+import {getFullScreen, closeFullScreen, initScaleInput, setDefaultValue} from "./modal_window.js";
 import {photos} from "./variables.js";
 
 const picSection = document.querySelector('.pictures');
@@ -10,7 +10,7 @@ export const hashtagText = document.querySelector('.text__hashtags');
 export const commentText = document.querySelector('.text__description');
 export const uploadFile = document.querySelector('#upload-file');
 const uploadCancel = document.querySelector('#upload-cancel');
-const uploadMoreBttn = document.querySelector('.comments-loader');
+
 
 
 function renderAllPhotos(arr) {
@@ -47,8 +47,22 @@ hashtagText.addEventListener('input', validateHashtag);
 
 commentText.addEventListener('input', validateComment);
 
-uploadFile.addEventListener('change', toggleClassForm);
+uploadFile.addEventListener('change', () => {
+    const defaultScale = 100;
+    initScaleInput(defaultScale);
+    setDefaultValue();
+    toggleClassForm();
+});
 
 uploadCancel.addEventListener('click', toggleClassForm);
 
-uploadMoreBttn.addEventListener('click', showMoreComments);
+const slider = document.getElementById('slider');
+noUiSlider.create(slider, {
+    start: [50, 80],
+    behaviour: 'unconstrained',
+    connect: true,
+    range: {
+        'min': 0,
+        'max': 100
+    }
+});

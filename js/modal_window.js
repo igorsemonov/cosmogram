@@ -10,38 +10,44 @@ function renderFullScreen(event) {
     const uploadMoreBttn = document.querySelector('.comments-loader');
 
     photos.forEach((el) => {
-
         if(event.target.getAttribute('data-id') == el.id){
             bigPicImg.src = el.url;
             likes.textContent = el.likes;
             comments.textContent = el.comments.length;
             socialCaption.textContent = el.description;
-            uploadMoreBttn.dataset.id = el.id;
 
-            renderComments(el.comments);
+            const commentsArr = [...el.comments];
+            let displayLimit = 5;
 
-            displayCounter = 5;
+            uploadMoreBttn.addEventListener('click', () => {
+                displayLimit += 5;
+                renderComments(commentsArr.slice(0,displayLimit));
+                showHideUploadMoreBttn(commentsArr, displayLimit)
+            });
+            
+            renderComments(commentsArr.slice(0,displayLimit));
+            showHideUploadMoreBttn(commentsArr, displayLimit);
         };
     });
 };
 
-function renderComments(el, commentsLimit = 5) {
+function renderComments(el) {
     const uploadCommentSection = document.querySelector('.social__comments');
     const commentsShown = document.querySelector('.comments-shown');
-    const uploadMoreBttn = document.querySelector('.comments-loader');
     uploadCommentSection.innerHTML = '';
-    commentsShown.textContent = commentsLimit;
-
-    if(uploadMoreBttn.classList.contains('hidden')){
-        uploadMoreBttn.classList.remove('hidden');
-    }
-    if(el.length < commentsLimit){
-        commentsShown.textContent = el.length;
-        uploadMoreBttn.classList.add('hidden');
-    }
-    el.slice(0, commentsLimit).forEach(elem => {
+    commentsShown.textContent = el.length;
+    el.forEach(elem => {
         uploadCommentSection.appendChild(generateComment(elem));
     });
+};
+
+function showHideUploadMoreBttn(elem, counter) {
+    const uploadMoreBttn = document.querySelector('.comments-loader');
+    if(elem.length <= counter){
+        uploadMoreBttn.classList.add('hidden');
+    }else{
+        uploadMoreBttn.classList.remove('hidden');
+    }
 };
 
 export function getFullScreen(event) {
@@ -55,13 +61,36 @@ export function closeFullScreen() {
     toggleClass();
 };
 
-let displayCounter = 5;
+const smallerBttn = document.querySelector('.scale__control--smaller');
+const biggerBttn = document.querySelector('.scale__control--bigger');
+const scaleInput = document.querySelector('.scale__control--value');
+const imgPreview = document.querySelector('.img-upload__preview img');
 
-export function showMoreComments(evt) {
-    photos.forEach((e) => {
-        if(evt.target.getAttribute('data-id') == e.id){
-            displayCounter += 5;
-            renderComments(e.comments, displayCounter);
-        }
-    })
+
+let initValue = 100;
+const step = 25
+const maxValue = 100;
+const minValue = 25;
+
+export function setDefaultValue() {
+    initValue = 100;
+}
+
+export function initScaleInput(value) {
+    scaleInput.setAttribute('value', `${value}%`);
+    imgPreview.style.transform = `scale(${value/100})`;
 };
+
+smallerBttn.addEventListener('click', () => {
+    if(initValue > minValue){
+        initValue -= step;
+        initScaleInput(initValue);
+    }
+});
+biggerBttn.addEventListener('click', () => {
+    if(initValue < maxValue){
+        initValue += step;
+        initScaleInput(initValue);
+    }
+});
+

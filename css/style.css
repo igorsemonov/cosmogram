@@ -1419,3 +1419,7 @@ main {
 .hidden {
   display: none;
 }
+
+#slider .noUi-handle[data-handle="0"] {
+  display: none;
+}
