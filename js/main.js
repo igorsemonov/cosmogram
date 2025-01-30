@@ -1,7 +1,7 @@
 
 import {generateElement, toggleClassForm} from "./functions.js";
 import {validateHashtag, validateComment} from "./validation.js";
-import {getFullScreen, closeFullScreen, initScaleInput, setDefaultValue} from "./modal_window.js";
+import {getFullScreen, closeFullScreen, initScaleInput, setDefaultValue, setDefaultEffect} from "./modal_window.js";
 import {photos} from "./variables.js";
 
 const picSection = document.querySelector('.pictures');
@@ -51,6 +51,7 @@ uploadFile.addEventListener('change', () => {
     const defaultScale = 100;
     initScaleInput(defaultScale);
     setDefaultValue();
+    setDefaultEffect();
     toggleClassForm();
 });
 
@@ -58,7 +59,7 @@ uploadCancel.addEventListener('click', toggleClassForm);
 
 const slider = document.getElementById('slider');
 noUiSlider.create(slider, {
-    start: [50, 80],
+    start: [50, 50],
     behaviour: 'unconstrained',
     connect: true,
     range: {

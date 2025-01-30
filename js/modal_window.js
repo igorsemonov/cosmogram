@@ -16,17 +16,16 @@ function renderFullScreen(event) {
             comments.textContent = el.comments.length;
             socialCaption.textContent = el.description;
 
-            const commentsArr = [...el.comments];
             let displayLimit = 5;
 
             uploadMoreBttn.addEventListener('click', () => {
                 displayLimit += 5;
-                renderComments(commentsArr.slice(0,displayLimit));
-                showHideUploadMoreBttn(commentsArr, displayLimit)
+                renderComments(el.comments.slice(0,displayLimit));
+                showHideUploadMoreBttn(el.comments, displayLimit)
             });
             
-            renderComments(commentsArr.slice(0,displayLimit));
-            showHideUploadMoreBttn(commentsArr, displayLimit);
+            renderComments(el.comments.slice(0,displayLimit));
+            showHideUploadMoreBttn(el.comments, displayLimit);
         };
     });
 };
@@ -94,3 +93,20 @@ biggerBttn.addEventListener('click', () => {
     }
 });
 
+const radioBttns = document.querySelectorAll('.effects__radio');
+const effectsList = document.querySelector('.effects__list');
+effectsList.addEventListener('change', useEffect);
+
+export function useEffect(evt) {
+    imgPreview.className = `effects__preview--${evt.target.value}`;
+};
+
+export function setDefaultEffect() {
+    radioBttns.forEach(e => {
+        e.checked = false;
+        if(e.value === 'none'){
+            e.checked = true;
+        }
+    })
+    imgPreview.className = '';
+};
