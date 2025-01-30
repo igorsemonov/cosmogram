@@ -93,7 +93,7 @@ biggerBttn.addEventListener('click', () => {
     }
 });
 
-const radioBttns = document.querySelectorAll('.effects__radio');
+const radioBttnDefault = document.querySelector('#effect-none');
 const effectsList = document.querySelector('.effects__list');
 effectsList.addEventListener('change', useEffect);
 
@@ -102,11 +102,6 @@ export function useEffect(evt) {
 };
 
 export function setDefaultEffect() {
-    radioBttns.forEach(e => {
-        e.checked = false;
-        if(e.value === 'none'){
-            e.checked = true;
-        }
-    })
+    radioBttnDefault.checked = true;
     imgPreview.className = '';
 };
