@@ -93,15 +93,5 @@ biggerBttn.addEventListener('click', () => {
     }
 });
 
-const radioBttnDefault = document.querySelector('#effect-none');
-const effectsList = document.querySelector('.effects__list');
-effectsList.addEventListener('change', useEffect);
 
-export function useEffect(evt) {
-    imgPreview.className = `effects__preview--${evt.target.value}`;
-};
 
-export function setDefaultEffect() {
-    radioBttnDefault.checked = true;
-    imgPreview.className = '';
-};
