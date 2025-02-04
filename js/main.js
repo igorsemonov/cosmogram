@@ -89,28 +89,30 @@ effectLevel.addEventListener('input', function() {
     useScale(this.value)
 });
 
+function setFilterValue(value) {
+    imgPreview.style.filter = value;
+}
+
 function useScale(value) {
-    let filterValue;
     switch(selectedEffect) {
         case 'chrome':
-            filterValue = `grayscale(${(value/100).toFixed(1)})`
+            setFilterValue(`grayscale(${(value/100).toFixed(1)})`);
             break;
         case 'sepia':
-            filterValue = `sepia(${(value/100).toFixed(1)})`
+            setFilterValue(`sepia(${(value/100).toFixed(1)})`);
             break;
         case 'marvin':
-            filterValue = `invert(${Math.trunc(value)}%)`
+            setFilterValue(`invert(${Math.trunc(value)}%)`);
             break;
         case 'phobos':
-            filterValue = `blur(${(value/100*3).toFixed(1)}px)`
+            setFilterValue(`blur(${(value/100*3).toFixed(1)}px)`);
             break;
         case 'heat':
-            filterValue = `brightness(${(1+(value/100)*2).toFixed(1)})`
+            setFilterValue(`brightness(${(1+(value/100)*2).toFixed(1)})`);
             break;
         default:
-            filterValue = 'none';
+            setFilterValue('none');
     };
-    imgPreview.style.filter = filterValue;
 };
 
 function setDefaultAttr() {
@@ -127,10 +129,10 @@ function useEffect(evt) {
     imgUploadSlider.style.display = 'block';
     selectedEffect = evt.target.value;
     imgPreview.className = `effects__preview--${evt.target.value}`;
-    slider.noUiSlider.set([50, 50]);
+    slider.noUiSlider.set([0, 100]);
 };
 
 function setDefaultEffect() {
     radioBttnDefault.checked = true;
     setDefaultAttr();
-}; 
+};
