@@ -1,8 +1,7 @@
 
-import {generateElement, toggleClassForm} from "./functions.js";
+import {generateElement, toggleClassForm, showError} from "./functions.js";
 import {validateHashtag, validateComment} from "./validation.js";
 import {getFullScreen, closeFullScreen, initScaleInput, setDefaultValue} from "./modal_window.js";
-import {photos} from "./variables.js";
 
 const picSection = document.querySelector('.pictures');
 const picCancelButt = document.querySelector('#picture-cancel');
@@ -11,7 +10,20 @@ export const commentText = document.querySelector('.text__description');
 export const uploadFile = document.querySelector('#upload-file');
 const uploadCancel = document.querySelector('#upload-cancel');
 
+export let photos = [];
 
+fetch('http://localhost:3000/photos')
+
+    .then(response => response.json())
+    .then(data => {
+        photos = data;
+        renderAllPhotos(photos);
+    })
+    .catch(error => {
+        console.log('Error', error);
+        showError('Failed to download files...');
+    });
+    
 
 function renderAllPhotos(arr) {
     const uploadSection = document.querySelector('.pictures');
@@ -76,22 +88,18 @@ noUiSlider.create(slider, {
     }
 });
 
+let selectedEffect;
+
 slider.noUiSlider.on('update', function(values){
     effectLevel.setAttribute('value', `${values[1]}`);
-    effectLevel.dispatchEvent(new Event('input'));
+    useScale(values[1]);
 });
-
-let selectedEffect;
 
 effectsList.addEventListener('change', useEffect);
 
-effectLevel.addEventListener('input', function() {
-    useScale(this.value)
-});
-
 function setFilterValue(value) {
     imgPreview.style.filter = value;
-}
+};
 
 function useScale(value) {
     switch(selectedEffect) {
@@ -135,4 +143,4 @@ function useEffect(evt) {
 function setDefaultEffect() {
     radioBttnDefault.checked = true;
     setDefaultAttr();
-};
+}; 

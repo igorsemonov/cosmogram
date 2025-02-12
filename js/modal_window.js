@@ -1,6 +1,6 @@
 
 import {toggleClass, generateComment} from "./functions.js";
-import {photos} from "./variables.js";
+import {photos} from "./main.js";
 
 function renderFullScreen(event) {
     const bigPicImg = document.querySelector('.big-picture__img img');
