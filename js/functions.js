@@ -1,5 +1,5 @@
 
-import{hashtagText, commentText, uploadFile} from "./main.js";
+import{hashtagText, commentText} from "./main.js";
 
 export function toggleClass() {
     const bigImgEl = document.querySelector('.big-picture');
@@ -14,7 +14,6 @@ export function toggleClassForm() {
     uploadOverlay.classList.toggle('hidden');
     hashtagText.value = '';
     commentText.value = '';
-    uploadFile.value = '';
 };
 
 export function generateElement(el) {
@@ -38,6 +37,8 @@ export function generateComment(el) {
 
 const errorDiv = document.createElement('div');
 document.body.append(errorDiv);
+
+function createErrWindow() {
 errorDiv.classList.add('error-window');
 errorDiv.style.position = 'fixed';
 errorDiv.style.top = '50%';
@@ -49,6 +50,8 @@ errorDiv.style.padding = '15px';
 errorDiv.style.fontSize = '27px';
 errorDiv.style.opacity = 0;
 errorDiv.style.transition = 'opacity 0.5s ease-in-out';
+};
+createErrWindow();
 
 export function showError(msg) {
     errorDiv.textContent = msg;
@@ -58,4 +61,33 @@ export function showError(msg) {
     setTimeout(() => {
         errorDiv.style.opacity = 0;
     }, 4000);
-}
+};
+
+
+function createNotificationBlocks() {
+const templateSuccess = document.querySelector('#success');
+const templateError = document.querySelector('#error');
+const clonedSuccessEl = templateSuccess.content.cloneNode(true);
+const clonedErrorEl = templateError.content.cloneNode(true);
+document.body.append(clonedSuccessEl.querySelector('.success'));
+document.body.append(clonedErrorEl.querySelector('.error'));
+document.querySelector('.error').style.opacity = 0;
+document.querySelector('.error').style.pointerEvents = 'none';
+document.querySelector('.success').style.opacity = 0;
+document.querySelector('.success').style.pointerEvents = 'none';
+};
+createNotificationBlocks();
+
+export function showNotification(status) {
+    const el = document.querySelector(`.${status}`)
+    el.style.opacity = 1;
+    el.style.pointerEvents = 'auto';
+    el.classList.add('visible');
+};
+
+export function hideNotification(status) {
+    const el = document.querySelector(`.${status}`)
+    el.style.opacity = 0;
+    el.style.pointerEvents = 'none';
+    el.classList.remove('visible');
+};

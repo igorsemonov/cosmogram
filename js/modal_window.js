@@ -1,6 +1,6 @@
 
 import {toggleClass, generateComment} from "./functions.js";
-import {photos} from "./main.js";
+import {photos, imgPreview} from "./main.js";
 
 function renderFullScreen(event) {
     const bigPicImg = document.querySelector('.big-picture__img img');
@@ -60,10 +60,10 @@ export function closeFullScreen() {
     toggleClass();
 };
 
+
 const smallerBttn = document.querySelector('.scale__control--smaller');
 const biggerBttn = document.querySelector('.scale__control--bigger');
 const scaleInput = document.querySelector('.scale__control--value');
-const imgPreview = document.querySelector('.img-upload__preview img');
 
 
 let initValue = 100;
@@ -93,5 +93,11 @@ biggerBttn.addEventListener('click', () => {
     }
 });
 
-
-
+export function downloadPreviewImg(evt) {
+    const file = evt.target.files[0];
+    const reader = new FileReader;
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+        imgPreview.src = e.target.result;
+    };
+};
