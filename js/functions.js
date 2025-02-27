@@ -63,7 +63,6 @@ export function showError(msg) {
     }, 4000);
 };
 
-
 function createNotificationBlocks() {
 const templateSuccess = document.querySelector('#success');
 const templateError = document.querySelector('#error');
@@ -71,23 +70,19 @@ const clonedSuccessEl = templateSuccess.content.cloneNode(true);
 const clonedErrorEl = templateError.content.cloneNode(true);
 document.body.append(clonedSuccessEl.querySelector('.success'));
 document.body.append(clonedErrorEl.querySelector('.error'));
-document.querySelector('.error').style.opacity = 0;
-document.querySelector('.error').style.pointerEvents = 'none';
-document.querySelector('.success').style.opacity = 0;
-document.querySelector('.success').style.pointerEvents = 'none';
+document.querySelector('.error').style.display = 'none';
+document.querySelector('.success').style.display = 'none';
 };
 createNotificationBlocks();
 
 export function showNotification(status) {
     const el = document.querySelector(`.${status}`)
-    el.style.opacity = 1;
-    el.style.pointerEvents = 'auto';
+    el.style.display = 'flex';
     el.classList.add('visible');
 };
 
 export function hideNotification(status) {
     const el = document.querySelector(`.${status}`)
-    el.style.opacity = 0;
-    el.style.pointerEvents = 'none';
+    el.style.display = 'none'
     el.classList.remove('visible');
 };

@@ -60,11 +60,9 @@ export function closeFullScreen() {
     toggleClass();
 };
 
-
 const smallerBttn = document.querySelector('.scale__control--smaller');
 const biggerBttn = document.querySelector('.scale__control--bigger');
 const scaleInput = document.querySelector('.scale__control--value');
-
 
 let initValue = 100;
 const step = 25

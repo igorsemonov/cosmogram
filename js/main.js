@@ -14,24 +14,20 @@ export const imgPreview = document.querySelector('.img-upload__preview img');
 const errorBttn = document.querySelector('.error__button');
 const successBttn = document.querySelector('.success__button');
 const imgFilters = document.querySelector('.img-filters');
-const imgUpload = document.querySelector('.img-upload');
+const imgFiltersForm = document.querySelector('.img-filters__form');
 
 imgFilters.classList.add('img-filters--inactive');
-
-const imgFiltersForm = document.querySelector('.img-filters__form');
 
 export let photos = []; 
 
     fetch('http://localhost:3000/photos')
-
     .then(response => response.json())
     .then(data => {
         photos = data;
         renderAllPhotos(photos);
         imgFilters.classList.remove('img-filters--inactive')
     })
-    .catch(error => {
-        console.log('Error', error);
+    .catch(() => {
         showError('Failed to download files...');
     });
 
@@ -98,8 +94,6 @@ document.addEventListener('click', e => {
     if(!e.target.closest('.error__inner')) hideNotification('error');
 });
 
-
-
 picSection.addEventListener('click', getFullScreen);
 
 picCancelButt.addEventListener('click', closeFullScreen);
@@ -131,16 +125,13 @@ uploadForm.addEventListener('submit', (event) => {
         method: 'POST',
         body: JSON.stringify(newPhoto)
     })
-
     .then(response => response.json())
     .then(data => {
         photos.push(data);
         uploadFile.value = '';
         showNotification('success');
     })
-        
-    .catch(err => {
-        console.log('Error', err);
+    .catch(() => {
         uploadFile.value = '';
         showNotification('error');
     });
@@ -152,8 +143,6 @@ successBttn.addEventListener('click', () => hideNotification('success'));
 errorBttn.addEventListener('click', () => hideNotification('error')); 
 
 uploadCancel.addEventListener('click', toggleClassForm);
-
-// ====================================== SLIDER ================================================
 
 const slider = document.getElementById('slider');
 const effectLevel = document.querySelector('.effect-level__value');
