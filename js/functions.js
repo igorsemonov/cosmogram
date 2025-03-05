@@ -1,5 +1,7 @@
 
-import{hashtagText, commentText} from "./main.js";
+import{hashtagText, commentText, uploadFile} from "./main.js";
+
+const uploadOverlay = document.querySelector('.img-upload__overlay');
 
 export function toggleClass() {
     const bigImgEl = document.querySelector('.big-picture');
@@ -8,12 +10,17 @@ export function toggleClass() {
     body.classList.toggle('modal-open');
 };
 
-export function toggleClassForm() {
-    const uploadOverlay = document.querySelector('.img-upload__overlay');
-    document.body.classList.toggle('modal-open');
-    uploadOverlay.classList.toggle('hidden');
+export function showUploadForm() {
+    document.body.classList.add('modal-open');
+    uploadOverlay.classList.remove('hidden');
+};
+
+export function hideUploadForm() {
+    document.body.classList.remove('modal-open');
+    uploadOverlay.classList.add('hidden');
     hashtagText.value = '';
     commentText.value = '';
+    uploadFile.value = '';
 };
 
 export function generateElement(el) {

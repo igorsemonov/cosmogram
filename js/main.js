@@ -1,5 +1,5 @@
 
-import {generateElement, toggleClassForm, showError, showNotification, hideNotification} from "./functions.js";
+import {generateElement, showError, showNotification, hideNotification, hideUploadForm, showUploadForm} from "./functions.js";
 import {validateHashtag, validateComment} from "./validation.js";
 import {getFullScreen, closeFullScreen, initScaleInput, setDefaultValue, downloadPreviewImg} from "./modal_window.js";
 
@@ -72,6 +72,7 @@ document.addEventListener('keydown', e => {
     const bigImgEl = document.querySelector('.big-picture');
     const successEl = document.querySelector('.success');
     const errorEl = document.querySelector('.error');
+    
     if(e.key === 'Escape' && e.target.classList.contains('text__hashtags') || e.target.classList.contains('text__description')){
         return;
     }
@@ -79,7 +80,7 @@ document.addEventListener('keydown', e => {
         closeFullScreen();
     }
     if(e.key === 'Escape' && !uploadOverlay.classList.contains('hidden')){
-        toggleClassForm();
+        hideUploadForm();
     }
     if(e.key === 'Escape' && successEl.classList.contains('visible')){
         hideNotification('success');
@@ -102,15 +103,18 @@ hashtagText.addEventListener('input', validateHashtag);
 
 commentText.addEventListener('input', validateComment);
 
+uploadCancel.addEventListener('click', hideUploadForm);
+
 uploadFile.addEventListener('change', (evt) => {
     const defaultScale = 100;
     downloadPreviewImg(evt);
     initScaleInput(defaultScale);
     setDefaultValue();
     setDefaultEffect();
-    toggleClassForm();
+    showUploadForm();
 });
- 
+
+
 uploadForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -128,21 +132,16 @@ uploadForm.addEventListener('submit', (event) => {
     .then(response => response.json())
     .then(data => {
         photos.push(data);
-        uploadFile.value = '';
         showNotification('success');
     })
     .catch(() => {
-        uploadFile.value = '';
         showNotification('error');
     });
-
-    toggleClassForm();
+    hideUploadForm();
 });
 
 successBttn.addEventListener('click', () => hideNotification('success'));
 errorBttn.addEventListener('click', () => hideNotification('error')); 
-
-uploadCancel.addEventListener('click', toggleClassForm);
 
 const slider = document.getElementById('slider');
 const effectLevel = document.querySelector('.effect-level__value');
